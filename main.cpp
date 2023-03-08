@@ -76,23 +76,29 @@ struct Grid
         {
             if (Entity::entities[e]->x == col && Entity::entities[e]->y == row && !wasRendered)
             {
-                switch (Entity::entities[e]->entityType)
-                {
-                    case Entities::Player:
-                        std::cout << "[P]";
-                        break;
-                    case Entities::Enemy:
-                        std::cout << "[E]";
-                        break;
-                    case Entities::Item:
-                        std::cout << "[?]";
-                        break;
-                }
+                CheckTypes(e);
                 wasRendered = true;
             }
         }
     }
+
+    void CheckTypes(int e) const {
+        switch (Entity::entities[e]->entityType)
+        {
+            case Entities::Player:
+                std::cout << "[P]";
+                break;
+            case Entities::Enemy:
+                std::cout << "[E]";
+                break;
+            case Entities::Item:
+                std::cout << "[?]";
+                break;
+        }
+    }
 };
+
+bool isLocationMatch(const Entity &entity1, const Entity &entity2) { return entity1.x == entity2.x && entity1.y == entity2.y; }
 
 void Playing(bool& gameExit, GameStates& gameState)
 {
@@ -104,7 +110,7 @@ void Playing(bool& gameExit, GameStates& gameState)
 
     while (!gameExit)
     {
-        if (player.x == enemy.x && player.y == enemy.y)
+        if (isLocationMatch(player, enemy))
         {
             EnemyFight(player, enemy);
             if (player.health <= 0)
@@ -119,7 +125,7 @@ void Playing(bool& gameExit, GameStates& gameState)
             }
         }
 
-        if (player.x == sword.x && player.y == sword.y)
+        if (isLocationMatch(player, sword))
         {
             Pickup(player, sword);
         }
