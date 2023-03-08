@@ -4,7 +4,7 @@
 
 class Entity;
 void EnemyFight(Entity& you, Entity& enemy);
-void Pickup(Entity& player, Entity& sword, std::vector<Entity*>& ents);
+void Pickup(Entity& player, Entity& sword);
 
 void ClearScreen()
 {
@@ -13,17 +13,6 @@ void ClearScreen()
         std::cout << std::endl;
     }
 }
-
-/*struct Entity
-{
-    int x = 0, y = 0;
-    int health, damage;
-
-    void HitTarget(Entity& target)
-    {
-        target.health - damage;
-    }
-};*/
 
 enum class Entities
 {
@@ -45,6 +34,7 @@ class Entity
 public:
     int x, y, health, damage;
     Entities entityType;
+    inline static std::vector<Entity*> entities;
     Entity(int health, int damage, Entities ent, int x = 0, int y = 0)
     {
         this->health = health;
@@ -52,6 +42,7 @@ public:
         this->entityType = ent;
         this->x = x;
         this->y = y;
+        entities.push_back(this);
     }
 
     void HitTarget(Entity& target)
@@ -63,31 +54,13 @@ public:
 struct Grid
 {
     bool wasRendered = false;
-    void Render(int mapSizeX, int mapSizeY, std::vector<Entity*>& ents)
+    void Render(int mapSizeX, int mapSizeY)
     {
         for (int row = -(mapSizeY/2); row <= mapSizeY/2; row++)
         {
             for (int col = -(mapSizeX/2); col <= mapSizeX/2; col++)
             {
-                for (int e = 0; e < ents.size(); e++)
-                {
-                    if (ents[e]->x == col && ents[e]->y == row && !wasRendered)
-                    {
-                        switch (ents[e]->entityType)
-                        {
-                            case Entities::Player:
-                                std::cout << "[P]";
-                                break;
-                            case Entities::Enemy:
-                                std::cout << "[E]";
-                                break;
-                            case Entities::Item:
-                                std::cout << "[?]";
-                                break;
-                        }
-                        wasRendered = true;
-                    }
-                }
+                DrawEntity(row, col);
                 if (!wasRendered)
                 {
                     std::cout << "[ ]";
@@ -97,18 +70,35 @@ struct Grid
             std::cout << std::endl;
         }
     }
+
+    void DrawEntity(int &row, int &col) {
+        for (int e = 0; e < Entity::entities.size(); e++)
+        {
+            if (Entity::entities[e]->x == col && Entity::entities[e]->y == row && !wasRendered)
+            {
+                switch (Entity::entities[e]->entityType)
+                {
+                    case Entities::Player:
+                        std::cout << "[P]";
+                        break;
+                    case Entities::Enemy:
+                        std::cout << "[E]";
+                        break;
+                    case Entities::Item:
+                        std::cout << "[?]";
+                        break;
+                }
+                wasRendered = true;
+            }
+        }
+    }
 };
 
 void Playing(bool& gameExit, GameStates& gameState)
 {
-    std::vector<Entity*> entities;
     Entity player(10, 1, Entities::Player);
     Entity enemy(15, 4, Entities::Enemy, 3, 3);
     Entity sword(0, 9, Entities::Item, -3, -4);
-
-    entities.push_back(&player);
-    entities.push_back(&enemy);
-    entities.push_back(&sword);
 
     Grid grid;
 
@@ -131,11 +121,11 @@ void Playing(bool& gameExit, GameStates& gameState)
 
         if (player.x == sword.x && player.y == sword.y)
         {
-            Pickup(player, sword, entities);
+            Pickup(player, sword);
         }
 
         ClearScreen();
-        grid.Render(10, 10, entities);
+        grid.Render(10, 10);
         std::cout << "X: " << player.x << " Y: " << player.y << std::endl;
 
         std::cout << "[W] Go up" << std::endl;
@@ -234,7 +224,7 @@ void EnemyFight(Entity& you, Entity& enemy)
     }
 }
 
-void Pickup(Entity& player, Entity& sword, std::vector<Entity*>& ents)
+void Pickup(Entity& player, Entity& sword)
 {
     while(true)
     {
@@ -258,11 +248,11 @@ void Pickup(Entity& player, Entity& sword, std::vector<Entity*>& ents)
         if (choice == "1")
         {
             player.damage = sword.damage;
-            for (int i = 0; i < ents.size(); i++)
+            for (int i = 0; i < Entity::entities.size(); i++)
             {
-                if (ents[i] == &sword)
+                if (Entity::entities[i] == &sword)
                 {
-                    ents.erase(ents.begin() + i);
+                    Entity::entities.erase(Entity::entities.begin() + i);
                 }
             }
             break;

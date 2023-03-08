@@ -1,3 +1,5 @@
 # ninja log v5
 3	512	6999121921362566	CMakeFiles/playing_with_cpp.dir/main.cpp.obj	ad8d84b1944356ef
 512	618	6999121922412543	playing_with_cpp.exe	572dfeba09a44509
+3	702	7000085695048709	CMakeFiles/playing_with_cpp.dir/main.cpp.obj	ae63f03b81838d51
+702	923	7000085697222819	playing_with_cpp.exe	572dfeba09a44509
