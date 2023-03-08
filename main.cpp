@@ -71,7 +71,7 @@ struct Grid
         }
     }
 
-    void DrawEntity(int &row, int &col) {
+    void DrawEntity(int row, int col) {
         for (int e = 0; e < Entity::entities.size(); e++)
         {
             if (Entity::entities[e]->x == col && Entity::entities[e]->y == row && !wasRendered)
