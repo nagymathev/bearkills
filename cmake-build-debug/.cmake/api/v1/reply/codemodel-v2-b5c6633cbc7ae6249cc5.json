@@ -49,8 +49,8 @@
 	"kind" : "codemodel",
 	"paths" : 
 	{
-		"build" : "C:/Users/viktor/CLionProjects/playing_with_cpp/cmake-build-debug",
-		"source" : "C:/Users/viktor/CLionProjects/playing_with_cpp"
+		"build" : "C:/Users/viktor/CLionProjects/bearkills/cmake-build-debug",
+		"source" : "C:/Users/viktor/CLionProjects/bearkills"
 	},
 	"version" : 
 	{

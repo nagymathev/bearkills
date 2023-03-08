@@ -211,7 +211,7 @@ void EnemyFight(Entity& you, Entity& enemy)
          \(          .'   '.         )/
           '.(__(__.-'       '.__)__).'
         )" << std::endl;
-        std::cout << "Oh NO! You crossed passess with a BIG ANGRY BEAR!" << std::endl;
+        std::cout << "Oh NO! You crossed paths with a BIG ANGRY BEAR!" << std::endl;
         std::cout << "What are you gonna do?" << std::endl;
         std::cout << "Your health: " << you.health << std::endl;
         std::cout << "Enemy health: " << enemy.health << std::endl;
